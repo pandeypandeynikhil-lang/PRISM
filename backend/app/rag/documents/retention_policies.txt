@@ -1,0 +1,87 @@
+PRISM BANK — RETENTION POLICIES & ESCALATION FRAMEWORK
+=========================================================
+
+SECTION 1: CHURN RISK TIERS & RESPONSE MANDATES
+-------------------------------------------------
+CRITICAL (≥75% churn probability):
+- Mandatory senior relationship manager call within 24 hours
+- Approve fee waiver up to ₹5,000 without manager sign-off
+- Eligible for Premium Upgrade offer at no charge for 3 months
+- Complimentary financial wellness consultation
+- SLA: Contact attempt within 1 business day
+
+HIGH (50–74% churn probability):
+- Outreach via preferred channel within 48 hours
+- Fee waiver up to ₹2,000 automatically approved
+- Eligible for loyalty bonus on FD/RD renewals (+0.25%)
+- SLA: Contact attempt within 3 business days
+
+MEDIUM (25–49% churn probability):
+- Automated personalized email + in-app notification
+- Targeted product cross-sell based on usage patterns
+- SLA: Digital touchpoint within 5 business days
+
+LOW (<25% churn probability):
+- Quarterly NPS survey + standard engagement comms
+- Proactive product education content
+
+SECTION 2: APPROVED RETENTION OFFERS
+--------------------------------------
+OFFER TYPE A — FEE WAIVERS:
+- Annual maintenance fee waiver (up to 2 years for Critical tier)
+- Zero-forex markup for 6 months (Premium/Wealth customers)
+- Free NEFT/RTGS transactions for 12 months
+- Locker annual fee waiver
+
+OFFER TYPE B — RATE ENHANCEMENTS:
+- Savings account rate boost: +0.50% above prevailing rate for 6 months
+- Fixed Deposit preferential rate: +0.30% for tenure ≥ 1 year
+- Home loan interest reduction: -0.10% for loyal customers (tenure ≥ 3 years)
+- Personal loan pre-approved at 1% below standard rate
+
+OFFER TYPE C — PRODUCT UPGRADES:
+- Current account → Premium Business Current Account (waived premium)
+- Savings → Privilege Savings with dedicated RM access
+- Classic credit card → Gold/Platinum upgrade with waived first-year fee
+- Basic debit → Premium debit with airport lounge access (3 visits/quarter)
+
+OFFER TYPE D — EXPERIENTIAL & LOYALTY:
+- Invitation to PRISM Wealth Summit (Wealth customers)
+- Dedicated relationship manager assignment
+- Priority banking queue bypass at all branches
+- Complimentary financial planning session (60 minutes)
+
+SECTION 3: CHANNEL PROTOCOLS
+-----------------------------
+PHONE OUTREACH:
+- Use customer's name, acknowledge tenure, express genuine appreciation
+- Lead with value, not desperation
+- Script: "We noticed you've been with us for X years. As a valued customer, we'd like to offer..."
+- Never mention competitor offers unless customer brings them up
+- Escalate to senior RM if customer explicitly mentions switching
+
+EMAIL OUTREACH:
+- Subject line must be personalized (include name and specific benefit)
+- Single CTA per email
+- Mobile-optimized HTML template mandatory
+- Unsubscribe link mandatory per TRAI regulations
+
+SMS:
+- Under 160 characters
+- Include customer name
+- Include opt-out instruction
+- Do not send between 9PM–8AM
+
+IN-APP NOTIFICATION:
+- Display on next login, not interrupt-style
+- Dismissable
+- Link to dedicated landing page
+
+SECTION 4: COMPLIANCE & REGULATORY
+------------------------------------
+- All retention offers must comply with RBI Fair Practices Code
+- No differential pricing based on religion, caste, or gender
+- Offers above ₹10,000 in value require branch manager approval
+- All interactions must be logged in CRM within 24 hours
+- Data used for churn prediction must be covered under customer consent at onboarding
+- DPDP Act 2023 compliance mandatory for all data usage

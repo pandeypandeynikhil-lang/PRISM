@@ -1,0 +1,114 @@
+PRISM BANK — PERSONALIZED OUTREACH TEMPLATES
+==============================================
+
+TEMPLATE 1: HIGH-VALUE SAVINGS CUSTOMER (Critical Risk)
+---------------------------------------------------------
+Subject: A special thank-you from PRISM Bank, {customer_name}
+
+Dear {customer_name},
+
+Your {tenure_years}-year journey with PRISM Bank has meant the world to us.
+We've noticed that we may not have been delivering the exceptional experience you deserve,
+and we want to change that — today.
+
+As a token of our appreciation and commitment:
+✦ Your savings rate is being upgraded to {upgraded_rate}% effective immediately
+✦ All transaction fees waived for the next 12 months
+✦ You've been assigned a dedicated Relationship Manager: {rm_name} (Direct: {rm_phone})
+
+We'd love 15 minutes of your time this week to understand how we can serve you better.
+Book a call at your convenience: {booking_link}
+
+Warm regards,
+{rm_name}
+Your Dedicated Relationship Manager, PRISM Bank
+Direct Line: {rm_phone}
+
+
+TEMPLATE 2: YOUNG DIGITAL-FIRST CUSTOMER (High Risk)
+------------------------------------------------------
+Subject: Hey {first_name} — we have something just for you 🎯
+
+Hi {first_name},
+
+Quick message from your PRISM Bank team.
+
+We'd love to show you what's new — and we think you'll genuinely be surprised.
+Here's what we're unlocking for your account this week:
+
+→ Zero charges on all UPI & NEFT transfers (forever, not just 3 months)
+→ 2% cashback on all card spends this month
+→ {feature_name} — our newest feature, made for people like you
+
+Tap here to activate in 30 seconds: {cta_link}
+
+Any feedback? Reply to this email directly. A human reads every reply.
+
+— The PRISM Team
+
+
+TEMPLATE 3: SME / BUSINESS CUSTOMER (Medium Risk)
+---------------------------------------------------
+Subject: Exclusive Business Banking Offer for {company_name}
+
+Dear {customer_name},
+
+Running {company_name} is no small feat — and your banking should match your ambition.
+
+We've put together a tailored offer based on your business profile:
+
+PRISM BUSINESS ADVANTAGE PACKAGE:
+• Current account with ₹0 minimum balance requirement
+• Overdraft facility pre-approved up to ₹{od_limit}
+• Free payroll processing for up to {employee_count} employees
+• Dedicated business RM with 4-hour response SLA
+
+This offer is valid until {expiry_date}.
+
+Let's schedule a 20-minute business review: {calendar_link}
+
+Best,
+{rm_name} | SME Banking, PRISM Bank
+
+
+TEMPLATE 4: SENIOR / WEALTH CUSTOMER (Any Risk)
+-------------------------------------------------
+Subject: Your PRISM Wealth Review — Complimentary Session
+
+Dear {honorific} {last_name},
+
+We hope this message finds you well.
+
+As part of our commitment to our most valued clients, we'd like to offer you
+a complimentary Wealth Review Session with our certified financial planners.
+
+In this 60-minute session, we will:
+• Review your current portfolio allocation and suggest optimizations
+• Present our latest Fixed Income and Equity products
+• Discuss estate planning and nomination updates
+• Address any service concerns you may have
+
+Your Wealth Manager, {wm_name}, will personally coordinate this session.
+Please reach out at {wm_email} or {wm_phone} at your convenience.
+
+We deeply value your relationship with PRISM Bank and look forward to continuing to serve you.
+
+Sincerely,
+{wm_name}
+Senior Wealth Manager, PRISM Bank
+
+
+TEMPLATE 5: SMS TEMPLATES
+--------------------------
+CRITICAL: "Hi {name}, your PRISM RM will call you today with an exclusive offer. Expect call from {rm_phone}. Opt-out: STOP to 9876543210"
+
+HIGH: "Hi {name}! Your PRISM account has a special benefit waiting. Login or call {helpline}. Valid till {date}. Opt-out: STOP to 9876543210"
+
+MEDIUM: "Hi {name}, check your PRISM app for a personalised offer. We appreciate your loyalty! Opt-out: STOP to 9876543210"
+
+TEMPLATE 6: IN-APP NOTIFICATION
+---------------------------------
+Title: "We value you, {first_name}"
+Body: "You've unlocked a special offer as a loyal PRISM customer. Tap to see your exclusive benefits — valid for 7 days only."
+CTA: "See My Offer"
+Dismiss: "Maybe Later"

@@ -1,0 +1,79 @@
+PRISM BANK — PRODUCT ELIGIBILITY & RETENTION RULES
+====================================================
+
+SAVINGS ACCOUNTS
+-----------------
+Privilege Savings:
+- Eligibility: AMB ≥ ₹50,000 OR salary ≥ ₹1,00,000/month
+- Benefits: 0.25% extra interest, unlimited free NEFT, dedicated RM
+- Upgrade trigger: Offer if customer has AMB ≥ ₹40,000 and tenure ≥ 12 months
+- Retention use: Upgrade + 6-month rate enhancement for high-risk customers
+
+Prime Savings:
+- Eligibility: AMB ≥ ₹10,000
+- Benefits: Free IMPS, priority customer service
+- Upgrade trigger: Offer if balance ≥ ₹8,000 and num_products = 1
+
+CREDIT CARDS
+-------------
+Titanium Credit Card:
+- Eligibility: Credit score ≥ 700, annual income ≥ ₹3,00,000
+- Retention benefit: Waive annual fee (₹1,000) for loyal customers (tenure ≥ 2 years)
+- Offer: First-year free upgrade from Classic → Titanium
+
+Platinum Credit Card:
+- Eligibility: Credit score ≥ 750, annual income ≥ ₹8,00,000
+- Retention benefit: 3 complimentary lounge accesses, waived joining fee ₹5,000
+- Offer: Upgrade trigger when customer has 3+ products and is high-risk
+
+FIXED DEPOSITS
+--------------
+- Standard FD rates apply; retention enhancement: +0.30% for renewals
+- Pre-mature penalty waived for critical-risk customers (one-time)
+- Auto-renewal with rate lock available as retention sweetener
+- Special tenure rates: 444 days (8.10%), 555 days (8.25%)
+
+LOANS
+------
+Home Loan:
+- Retention: Rate reset to prevailing rate + 0.10% discount if customer threatens to transfer
+- Part-prepayment penalty waived (one-time) for loyal customers
+
+Personal Loan:
+- Pre-approved PA: Credit score ≥ 720 and salary account with PRISM
+- Retention offer: Reduce interest by 1% for top-up loans to existing customers
+
+WEALTH / INVESTMENT
+--------------------
+Mutual Fund SIP:
+- Offer: Zero transaction fee for first 12 months
+- Trigger: Salary credit customers with balance ≥ ₹2,00,000
+
+Portfolio Management Service (PMS):
+- Eligibility: AUM ≥ ₹50,00,000
+- Retention: Performance review waiver, dedicated investment advisor
+
+RULES ENGINE — AUTOMATIC OFFER SELECTION
+------------------------------------------
+Rule 1: IF churn_prob ≥ 0.75 AND account_balance ≥ 1,00,000 THEN offer = "Privilege Savings Upgrade + Rate Enhancement"
+Rule 2: IF churn_prob ≥ 0.75 AND num_products = 1 AND credit_score ≥ 700 THEN offer = "Titanium Credit Card (Free)"
+Rule 3: IF churn_prob ≥ 0.50 AND complaints_last_year ≥ 2 THEN offer = "Senior RM Assignment + Fee Waiver"
+Rule 4: IF churn_prob ≥ 0.50 AND is_active_member = False THEN offer = "Engagement Campaign + Cashback Incentive"
+Rule 5: IF churn_prob ≥ 0.25 AND nps_score ≤ 5 THEN offer = "Service Recovery + Product Education"
+Rule 6: IF churn_prob ≥ 0.25 AND digital_login_frequency < 2 THEN offer = "Digital Onboarding + App Feature Walkthrough"
+Rule 7: IF tenure_months ≥ 60 AND churn_prob ≥ 0.25 THEN offer = "Loyalty Milestone Award + Long-term FD Offer"
+Rule 8: IF estimated_salary ≥ 2,00,000 AND churn_prob ≥ 0.50 THEN offer = "Wealth Management Consultation (Complimentary)"
+
+CHANNEL SELECTION RULES
+------------------------
+- age < 35 AND digital_login_frequency > 5: prefer in_app or email
+- age ≥ 55 OR account_balance > 5,00,000: prefer phone or branch
+- complaints_last_year > 1: mandatory phone (not email or SMS)
+- nps_score < 4: phone call from senior RM mandatory
+
+PROHIBITED ACTIONS
+-------------------
+- Never offer competing bank products or mention competitor rates
+- Do not offer fee waivers to customers flagged for fraud investigation
+- Do not contact customers who have opted out of marketing (DNC list)
+- Do not make credit/loan offers to customers with pending EMI defaults

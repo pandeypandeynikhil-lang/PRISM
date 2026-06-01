@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
+*.db
+*.pkl
+venv/
+.venv/
+env/
+
+# ML artifacts (regenerated on startup)
+backend/app/ml/churn_model.pkl
+backend/app/ml/scaler.pkl
+
+# ChromaDB (regenerated on startup)
+backend/app/rag/chroma_db/*
+!backend/app/rag/chroma_db/.gitkeep
+
+# Node
+node_modules/
+dist/
+.cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
