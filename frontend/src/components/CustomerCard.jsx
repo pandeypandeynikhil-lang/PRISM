@@ -58,7 +58,7 @@ export default function CustomerCard({ customer }) {
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
           <span className={`risk-badge ${risk}`}>{risk}</span>
           <span style={{
-            fontSize: '0.68rem', color: 'var(--text-muted)',
+            fontSize: '0.68rem',
             background: `${SEG_COLOR[customer.segment]}18`,
             color: SEG_COLOR[customer.segment],
             padding: '2px 7px', borderRadius: 100,

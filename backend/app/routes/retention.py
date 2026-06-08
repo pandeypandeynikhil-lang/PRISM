@@ -84,7 +84,8 @@ async def generate_strategy(customer_id: str, db: AsyncSession = Depends(get_db)
         estimated_revenue_saved=strategy_data.get("estimated_revenue_saved", 0),
         cost_to_execute=strategy_data.get("cost_to_execute", 0),
         roi_score=strategy_data.get("roi_score", 0),
-        rag_sources=[c.get("source", "") for c in rag_context.split("---") if rag_context],
+        # FIXED
+        rag_sources=[c.strip() for c in rag_context.split("---") if rag_context and c.strip()],
         llm_generated=True,
         status="pending",
     )

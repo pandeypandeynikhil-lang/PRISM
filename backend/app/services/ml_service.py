@@ -1,4 +1,9 @@
+"""
+PRISM ML Service — Fixed feature names warning
+Passes DataFrame to scaler/model so column names are preserved.
+"""
 import numpy as np
+import pandas as pd
 from app.ml.train_model import load_model, FEATURE_NAMES, get_feature_importances
 import logging
 
@@ -16,8 +21,9 @@ def _ensure_loaded():
 
 def predict_churn(features: list[float]) -> dict:
     _ensure_loaded()
-    X = np.array(features).reshape(1, -1)
-    X_scaled = _scaler.transform(X)
+    # Pass as DataFrame with column names — fixes sklearn warning
+    X = pd.DataFrame([features], columns=FEATURE_NAMES)
+    X_scaled = pd.DataFrame(_scaler.transform(X), columns=FEATURE_NAMES)
     prob = float(_model.predict_proba(X_scaled)[0][1])
     risk_tier = _classify_risk(prob)
     importances = get_feature_importances()
