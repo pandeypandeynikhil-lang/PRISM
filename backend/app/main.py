@@ -14,17 +14,17 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logger.info("🚀 PRISM Retention System starting up...")
+    logger.info("PRISM v2 starting up...")
     await init_db()
     ensure_model_exists()
-    logger.info("✅ All systems initialized")
+    logger.info("All systems initialized")
     yield
-    logger.info("🛑 PRISM shutting down...")
+    logger.info("PRISM shutting down")
 
 
 app = FastAPI(
-    title="PRISM - Proactive Retention Intelligence System for Markets",
-    description="AI-powered churn prediction and retention strategy engine for banking",
+    title="PRISM v2 — Predictive Retention Intelligence & Strategic Management",
+    description="CPI-driven churn prediction with fairness-aware AI retention",
     version="2.0.0",
     lifespan=lifespan,
 )
@@ -38,23 +38,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(predict.router,    prefix="/api/predict",    tags=["Prediction"])
-app.include_router(rag.router,        prefix="/api/rag",         tags=["RAG"])
-app.include_router(retention.router,  prefix="/api/retention",   tags=["Retention"])
-app.include_router(customers.router,  prefix="/api/customers",   tags=["Customers"])
-app.include_router(analytics.router,  prefix="/api/analytics",   tags=["Analytics"])
+app.include_router(predict.router,   prefix="/api/predict",   tags=["Prediction"])
+app.include_router(rag.router,       prefix="/api/rag",        tags=["RAG"])
+app.include_router(retention.router, prefix="/api/retention",  tags=["Retention"])
+app.include_router(customers.router, prefix="/api/customers",  tags=["Customers"])
+app.include_router(analytics.router, prefix="/api/analytics",  tags=["Analytics"])
 
 
 @app.get("/")
 async def root():
-    return {
-        "system": "PRISM",
-        "status": "operational",
-        "version": "2.0.0",
-        "tagline": "Predict. Retain. Grow.",
-    }
+    return {"system": "PRISM v2", "status": "operational",
+            "model": "CPI = α·CRS + β·OS + γ·IS", "zones": 5}
 
 
 @app.get("/health")
 async def health():
-    return {"status": "healthy", "service": "prism-backend"}
+    return {"status": "healthy"}

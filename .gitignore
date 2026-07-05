@@ -2,24 +2,27 @@
 __pycache__/
 *.py[cod]
 *.egg-info/
-.env
-*.db
-*.pkl
 venv/
 .venv/
 env/
 
-# ML artifacts (regenerated on startup)
+# Secrets — NEVER commit these
+.env
+
+# ML artifacts (auto-regenerated on startup)
 backend/app/ml/churn_model.pkl
 backend/app/ml/scaler.pkl
 
-# ChromaDB (regenerated on startup)
+# ChromaDB vector store (auto-regenerated on startup)
 backend/app/rag/chroma_db/*
 !backend/app/rag/chroma_db/.gitkeep
 
+# Database
+*.db
+
 # Node
 node_modules/
-dist/
+frontend/dist/
 .cache/
 
 # IDE

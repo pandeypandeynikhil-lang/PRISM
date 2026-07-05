@@ -1,79 +1,76 @@
-PRISM BANK — PRODUCT ELIGIBILITY & RETENTION RULES
-====================================================
+PRISM BANK — PRODUCT ELIGIBILITY & CPI-BASED RULES v2
+======================================================
 
 SAVINGS ACCOUNTS
 -----------------
 Privilege Savings:
-- Eligibility: AMB ≥ ₹50,000 OR salary ≥ ₹1,00,000/month
-- Benefits: 0.25% extra interest, unlimited free NEFT, dedicated RM
-- Upgrade trigger: Offer if customer has AMB ≥ ₹40,000 and tenure ≥ 12 months
-- Retention use: Upgrade + 6-month rate enhancement for high-risk customers
+- Eligibility: AMB >= Rs 50,000 OR salary >= Rs 1,00,000/month
+- Retention use: Upgrade + rate enhancement for Zone 4/5 customers
+- CPI trigger: CPI > 0.5 AND account_balance >= 40,000
 
 Prime Savings:
-- Eligibility: AMB ≥ ₹10,000
-- Benefits: Free IMPS, priority customer service
-- Upgrade trigger: Offer if balance ≥ ₹8,000 and num_products = 1
+- Eligibility: AMB >= Rs 10,000
+- CPI trigger: CPI > 0.3 AND num_products == 1
 
 CREDIT CARDS
--------------
+------------
 Titanium Credit Card:
-- Eligibility: Credit score ≥ 700, annual income ≥ ₹3,00,000
-- Retention benefit: Waive annual fee (₹1,000) for loyal customers (tenure ≥ 2 years)
-- Offer: First-year free upgrade from Classic → Titanium
+- Eligibility: credit_score >= 700, annual income >= Rs 3,00,000
+- Retention benefit: Waive annual fee (Rs 1,000) for tenure >= 2 years
+- CPI trigger: Zone 4 or 5, credit_score >= 700
 
 Platinum Credit Card:
-- Eligibility: Credit score ≥ 750, annual income ≥ ₹8,00,000
-- Retention benefit: 3 complimentary lounge accesses, waived joining fee ₹5,000
-- Offer: Upgrade trigger when customer has 3+ products and is high-risk
+- Eligibility: credit_score >= 750, annual income >= Rs 8,00,000
+- Retention benefit: 3 lounge accesses, waived joining fee Rs 5,000
+- CPI trigger: Zone 4/5, 3+ products
 
 FIXED DEPOSITS
 --------------
-- Standard FD rates apply; retention enhancement: +0.30% for renewals
-- Pre-mature penalty waived for critical-risk customers (one-time)
-- Auto-renewal with rate lock available as retention sweetener
-- Special tenure rates: 444 days (8.10%), 555 days (8.25%)
+- Retention enhancement: +0.30% for renewals
+- Pre-mature penalty waived for Zone 5 customers (one-time)
+- Special rates: 444 days (8.10%), 555 days (8.25%)
 
 LOANS
-------
+-----
 Home Loan:
-- Retention: Rate reset to prevailing rate + 0.10% discount if customer threatens to transfer
-- Part-prepayment penalty waived (one-time) for loyal customers
+- Rate reset discount: -0.10% for loyal customers (tenure >= 3 years, Zone 4/5)
+- Part-prepayment penalty waived once for loyal customers
 
 Personal Loan:
-- Pre-approved PA: Credit score ≥ 720 and salary account with PRISM
-- Retention offer: Reduce interest by 1% for top-up loans to existing customers
+- Pre-approved: credit_score >= 720, salary account with PRISM
+- Retention: -1% rate for top-up loans for existing Zone 4/5 customers
 
-WEALTH / INVESTMENT
---------------------
-Mutual Fund SIP:
-- Offer: Zero transaction fee for first 12 months
-- Trigger: Salary credit customers with balance ≥ ₹2,00,000
+INCLUSION-AWARE RULES
+----------------------
+Rule I1: IF is_score > 70 AND zone >= 3 THEN offer = "Zero Balance + Free Services Bundle"
+Rule I2: IF is_score > 70 AND complaints >= 1 THEN offer = "Service Recovery + Financial Literacy"
+Rule I3: IF is_score > 60 AND account_balance < 10000 THEN offer = "No Penalty + Free Transactions"
 
-Portfolio Management Service (PMS):
-- Eligibility: AUM ≥ ₹50,00,000
-- Retention: Performance review waiver, dedicated investment advisor
+CPI-BASED AUTOMATED RULES
+---------------------------
+Rule C1: IF cpi > 0.7 AND account_balance >= 100000 THEN offer = "Privilege Savings + Rate Enhancement"
+Rule C2: IF cpi > 0.7 AND num_products == 1 AND credit_score >= 700 THEN offer = "Titanium Credit Card Free"
+Rule C3: IF cpi > 0.5 AND complaints >= 2 THEN offer = "Senior RM Assignment + Fee Waiver"
+Rule C4: IF cpi > 0.5 AND is_active_member == False THEN offer = "Re-engagement + Cashback"
+Rule C5: IF cpi > 0.4 AND nps_score <= 5 THEN offer = "Service Recovery + Product Education"
+Rule C6: IF cpi > 0.4 AND digital_login_frequency < 2 THEN offer = "Digital Onboarding + App Walkthrough"
+Rule C7: IF tenure_months >= 60 AND cpi > 0.3 THEN offer = "Loyalty Milestone Award + FD Offer"
+Rule C8: IF estimated_salary >= 2000000 AND cpi > 0.5 THEN offer = "Wealth Management Consultation"
 
-RULES ENGINE — AUTOMATIC OFFER SELECTION
-------------------------------------------
-Rule 1: IF churn_prob ≥ 0.75 AND account_balance ≥ 1,00,000 THEN offer = "Privilege Savings Upgrade + Rate Enhancement"
-Rule 2: IF churn_prob ≥ 0.75 AND num_products = 1 AND credit_score ≥ 700 THEN offer = "Titanium Credit Card (Free)"
-Rule 3: IF churn_prob ≥ 0.50 AND complaints_last_year ≥ 2 THEN offer = "Senior RM Assignment + Fee Waiver"
-Rule 4: IF churn_prob ≥ 0.50 AND is_active_member = False THEN offer = "Engagement Campaign + Cashback Incentive"
-Rule 5: IF churn_prob ≥ 0.25 AND nps_score ≤ 5 THEN offer = "Service Recovery + Product Education"
-Rule 6: IF churn_prob ≥ 0.25 AND digital_login_frequency < 2 THEN offer = "Digital Onboarding + App Feature Walkthrough"
-Rule 7: IF tenure_months ≥ 60 AND churn_prob ≥ 0.25 THEN offer = "Loyalty Milestone Award + Long-term FD Offer"
-Rule 8: IF estimated_salary ≥ 2,00,000 AND churn_prob ≥ 0.50 THEN offer = "Wealth Management Consultation (Complimentary)"
-
-CHANNEL SELECTION RULES
-------------------------
-- age < 35 AND digital_login_frequency > 5: prefer in_app or email
-- age ≥ 55 OR account_balance > 5,00,000: prefer phone or branch
-- complaints_last_year > 1: mandatory phone (not email or SMS)
-- nps_score < 4: phone call from senior RM mandatory
+CHANNEL SELECTION (CPI-AWARE)
+-------------------------------
+- zone_number == 5: phone call from senior RM (mandatory)
+- zone_number == 4 AND complaints > 1: phone call mandatory
+- zone_number == 4 AND complaints == 0: email or in_app preferred
+- zone_number == 3: email or in_app
+- zone_number <= 2: in_app or email (low touch)
+- is_score > 70: prefer phone or branch (digital gap)
+- age >= 55: prefer phone or branch
 
 PROHIBITED ACTIONS
 -------------------
-- Never offer competing bank products or mention competitor rates
-- Do not offer fee waivers to customers flagged for fraud investigation
-- Do not contact customers who have opted out of marketing (DNC list)
-- Do not make credit/loan offers to customers with pending EMI defaults
+- Never offer competing bank products
+- Do not offer to customers flagged for fraud investigation
+- Do not contact DNC-listed customers
+- Do not make credit offers to customers with pending EMI defaults
+- Offers > Rs 10,000 in value require branch manager approval

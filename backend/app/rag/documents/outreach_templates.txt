@@ -1,114 +1,109 @@
-PRISM BANK — PERSONALIZED OUTREACH TEMPLATES
-==============================================
+PRISM BANK — PERSONALIZED OUTREACH TEMPLATES v2
+================================================
 
-TEMPLATE 1: HIGH-VALUE SAVINGS CUSTOMER (Critical Risk)
----------------------------------------------------------
-Subject: A special thank-you from PRISM Bank, {customer_name}
+TEMPLATE 1: ZONE 5 CRITICAL — HIGH VALUE CUSTOMER
+--------------------------------------------------
+Subject: A personal message from your PRISM Bank Relationship Manager, {customer_name}
 
 Dear {customer_name},
 
-Your {tenure_years}-year journey with PRISM Bank has meant the world to us.
-We've noticed that we may not have been delivering the exceptional experience you deserve,
-and we want to change that — today.
+Your {tenure_years}-year journey with PRISM Bank means everything to us, and we want to make sure we are delivering the exceptional experience you deserve.
 
-As a token of our appreciation and commitment:
-✦ Your savings rate is being upgraded to {upgraded_rate}% effective immediately
-✦ All transaction fees waived for the next 12 months
-✦ You've been assigned a dedicated Relationship Manager: {rm_name} (Direct: {rm_phone})
+Your dedicated Relationship Manager, {rm_name}, has personally reviewed your account and prepared an exclusive offer:
+- Savings rate upgraded to {upgraded_rate}% effective immediately
+- All transaction fees waived for the next 12 months
+- Direct line to {rm_name}: {rm_phone}
 
-We'd love 15 minutes of your time this week to understand how we can serve you better.
-Book a call at your convenience: {booking_link}
+We would love 15 minutes of your time this week.
+Book here: {booking_link}
 
-Warm regards,
-{rm_name}
-Your Dedicated Relationship Manager, PRISM Bank
-Direct Line: {rm_phone}
+{rm_name} | Senior Relationship Manager, PRISM Bank
 
 
-TEMPLATE 2: YOUNG DIGITAL-FIRST CUSTOMER (High Risk)
-------------------------------------------------------
-Subject: Hey {first_name} — we have something just for you 🎯
+TEMPLATE 2: ZONE 4 HIGH RISK — TARGETED OUTREACH
+-------------------------------------------------
+Subject: Exclusive offer prepared for you, {first_name}
+
+Dear {first_name},
+
+We noticed we may not have been delivering the best experience lately, and we want to change that today.
+
+This week we are unlocking for your account:
+- {offer_value} fee waiver — applied immediately
+- Rate enhancement of {rate_boost}% on your savings
+- Priority customer service — skip the queue
+
+Activate in one click: {cta_link}
+
+Questions? Reply to this email — a human reads every reply.
+
+
+TEMPLATE 3: ZONE 3 MODERATE — RE-ENGAGEMENT
+-------------------------------------------
+Subject: We have something new for you, {first_name}
 
 Hi {first_name},
 
-Quick message from your PRISM Bank team.
+Quick message from your PRISM Bank team — we have been thinking about how to make banking better for you.
 
-We'd love to show you what's new — and we think you'll genuinely be surprised.
-Here's what we're unlocking for your account this week:
+Here is what is new and ready for your account:
+- {feature_name}: designed based on customers like you
+- Loyalty bonus: {loyalty_benefit}
+- Personalized financial insight report: free this month
 
-→ Zero charges on all UPI & NEFT transfers (forever, not just 3 months)
-→ 2% cashback on all card spends this month
-→ {feature_name} — our newest feature, made for people like you
-
-Tap here to activate in 30 seconds: {cta_link}
-
-Any feedback? Reply to this email directly. A human reads every reply.
-
-— The PRISM Team
+See your profile: {app_link}
 
 
-TEMPLATE 3: SME / BUSINESS CUSTOMER (Medium Risk)
----------------------------------------------------
-Subject: Exclusive Business Banking Offer for {company_name}
+TEMPLATE 4: ZONE 2 LOW — LOYALTY PROGRAM
+-----------------------------------------
+Subject: Your PRISM Loyalty Rewards update
 
 Dear {customer_name},
 
-Running {company_name} is no small feat — and your banking should match your ambition.
+Thank you for being a valued PRISM Bank customer for {tenure_months} months.
 
-We've put together a tailored offer based on your business profile:
+Your current loyalty status: {loyalty_tier}
+Points balance: {points}
+Next milestone: {next_milestone}
+
+Exclusive member offers this month:
+- {offer_1}
+- {offer_2}
+
+View your rewards: {rewards_link}
+
+
+TEMPLATE 5: HIGH INCLUSION SCORE — UNDERSERVED CUSTOMER
+---------------------------------------------------------
+Subject: Special support program from PRISM Bank
+
+Dear {customer_name},
+
+At PRISM Bank, we believe everyone deserves excellent banking. We have a special program designed for customers like you:
+
+- Zero minimum balance requirement — no penalties
+- Free NEFT, IMPS and UPI transactions
+- Free financial literacy workshop (online, 1 hour)
+- Dedicated support helpline: {helpline}
+
+This is our commitment to fair and inclusive banking.
+
+TEMPLATE 6: SME BUSINESS CUSTOMER
+----------------------------------
+Subject: Business Banking Offer for {company_name}
+
+Dear {customer_name},
 
 PRISM BUSINESS ADVANTAGE PACKAGE:
-• Current account with ₹0 minimum balance requirement
-• Overdraft facility pre-approved up to ₹{od_limit}
-• Free payroll processing for up to {employee_count} employees
-• Dedicated business RM with 4-hour response SLA
+- Current account with Rs 0 minimum balance
+- Overdraft facility pre-approved up to Rs {od_limit}
+- Free payroll processing for up to {employee_count} employees
+- Dedicated business RM with 4-hour response SLA
 
-This offer is valid until {expiry_date}.
+Valid until: {expiry_date}
+Schedule a review: {calendar_link}
 
-Let's schedule a 20-minute business review: {calendar_link}
-
-Best,
-{rm_name} | SME Banking, PRISM Bank
-
-
-TEMPLATE 4: SENIOR / WEALTH CUSTOMER (Any Risk)
--------------------------------------------------
-Subject: Your PRISM Wealth Review — Complimentary Session
-
-Dear {honorific} {last_name},
-
-We hope this message finds you well.
-
-As part of our commitment to our most valued clients, we'd like to offer you
-a complimentary Wealth Review Session with our certified financial planners.
-
-In this 60-minute session, we will:
-• Review your current portfolio allocation and suggest optimizations
-• Present our latest Fixed Income and Equity products
-• Discuss estate planning and nomination updates
-• Address any service concerns you may have
-
-Your Wealth Manager, {wm_name}, will personally coordinate this session.
-Please reach out at {wm_email} or {wm_phone} at your convenience.
-
-We deeply value your relationship with PRISM Bank and look forward to continuing to serve you.
-
-Sincerely,
-{wm_name}
-Senior Wealth Manager, PRISM Bank
-
-
-TEMPLATE 5: SMS TEMPLATES
---------------------------
-CRITICAL: "Hi {name}, your PRISM RM will call you today with an exclusive offer. Expect call from {rm_phone}. Opt-out: STOP to 9876543210"
-
-HIGH: "Hi {name}! Your PRISM account has a special benefit waiting. Login or call {helpline}. Valid till {date}. Opt-out: STOP to 9876543210"
-
-MEDIUM: "Hi {name}, check your PRISM app for a personalised offer. We appreciate your loyalty! Opt-out: STOP to 9876543210"
-
-TEMPLATE 6: IN-APP NOTIFICATION
----------------------------------
-Title: "We value you, {first_name}"
-Body: "You've unlocked a special offer as a loyal PRISM customer. Tap to see your exclusive benefits — valid for 7 days only."
-CTA: "See My Offer"
-Dismiss: "Maybe Later"
+SMS TEMPLATES:
+ZONE 5: "Hi {name}, your PRISM RM {rm_name} will call you today with an exclusive offer. Opt-out: STOP to 9876543210"
+ZONE 4: "Hi {name}, PRISM has a special benefit ready for you. Login or call {helpline}. Valid till {date}. Opt-out: STOP to 9876543210"
+ZONE 3: "Hi {name}, check your PRISM app for a personalised offer. Opt-out: STOP to 9876543210"

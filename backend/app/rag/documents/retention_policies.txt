@@ -1,49 +1,78 @@
-PRISM BANK — RETENTION POLICIES & ESCALATION FRAMEWORK
-=========================================================
+PRISM BANK — RETENTION POLICIES & ESCALATION FRAMEWORK v2
+===========================================================
 
-SECTION 1: CHURN RISK TIERS & RESPONSE MANDATES
--------------------------------------------------
-CRITICAL (≥75% churn probability):
+SECTION 1: SEISMIC ZONE RISK TIERS & RESPONSE MANDATES
+---------------------------------------------------------
+ZONE 5 — CRITICAL (CRS 0.81–1.00):
 - Mandatory senior relationship manager call within 24 hours
-- Approve fee waiver up to ₹5,000 without manager sign-off
-- Eligible for Premium Upgrade offer at no charge for 3 months
+- Fee waiver up to Rs 5,000 without manager sign-off
+- Eligible for Premium Upgrade at no charge for 3 months
 - Complimentary financial wellness consultation
 - SLA: Contact attempt within 1 business day
+- Recommended Action: RM intervention with personalized offers
 
-HIGH (50–74% churn probability):
+ZONE 4 — HIGH (CRS 0.61–0.80):
 - Outreach via preferred channel within 48 hours
-- Fee waiver up to ₹2,000 automatically approved
+- Fee waiver up to Rs 2,000 automatically approved
 - Eligible for loyalty bonus on FD/RD renewals (+0.25%)
 - SLA: Contact attempt within 3 business days
+- Recommended Action: Targeted outreach, service improvement
 
-MEDIUM (25–49% churn probability):
+ZONE 3 — MODERATE (CRS 0.41–0.60):
 - Automated personalized email + in-app notification
 - Targeted product cross-sell based on usage patterns
 - SLA: Digital touchpoint within 5 business days
+- Recommended Action: Re-engagement campaigns, product suggestions
 
-LOW (<25% churn probability):
+ZONE 2 — LOW (CRS 0.21–0.40):
 - Quarterly NPS survey + standard engagement comms
 - Proactive product education content
+- Loyalty program enrolment
+- Recommended Action: Strengthen engagement, loyalty programs
 
-SECTION 2: APPROVED RETENTION OFFERS
+ZONE 1 — VERY LOW (CRS 0.00–0.20):
+- Standard monthly communication
+- Product awareness campaigns
+- Recommended Action: Maintain satisfaction, passive communication
+
+SECTION 2: CPI-BASED PRIORITIZATION
+--------------------------------------
+CPI = α·CRS + β·OS + γ·IS
+α = 0.5 (Urgency weight)
+β = 0.3 (Business Value weight)
+γ = 0.2 (Inclusion Priority weight)
+
+High CPI (>0.6): Immediate RM action, premium offers
+Medium CPI (0.4–0.6): Automated outreach + targeted offers
+Low CPI (<0.4): Standard engagement programs
+
+SECTION 3: INCLUSION SCORE POLICY
+------------------------------------
+Customers with IS > 70 (economically underserved) receive:
+- No minimum balance penalties for 6 months
+- Free basic banking services bundle
+- Financial literacy program access
+- Priority consideration for loan restructuring
+
+SECTION 4: APPROVED RETENTION OFFERS
 --------------------------------------
 OFFER TYPE A — FEE WAIVERS:
-- Annual maintenance fee waiver (up to 2 years for Critical tier)
-- Zero-forex markup for 6 months (Premium/Wealth customers)
+- Annual maintenance fee waiver (up to 2 years for Zone 5)
+- Zero-forex markup for 6 months (Premium/Wealth)
 - Free NEFT/RTGS transactions for 12 months
 - Locker annual fee waiver
 
 OFFER TYPE B — RATE ENHANCEMENTS:
 - Savings account rate boost: +0.50% above prevailing rate for 6 months
-- Fixed Deposit preferential rate: +0.30% for tenure ≥ 1 year
-- Home loan interest reduction: -0.10% for loyal customers (tenure ≥ 3 years)
+- Fixed Deposit preferential rate: +0.30% for tenure >= 1 year
+- Home loan interest reduction: -0.10% for loyal customers (tenure >= 3 years)
 - Personal loan pre-approved at 1% below standard rate
 
 OFFER TYPE C — PRODUCT UPGRADES:
-- Current account → Premium Business Current Account (waived premium)
-- Savings → Privilege Savings with dedicated RM access
-- Classic credit card → Gold/Platinum upgrade with waived first-year fee
-- Basic debit → Premium debit with airport lounge access (3 visits/quarter)
+- Current account to Premium Business Current Account (waived premium)
+- Savings to Privilege Savings with dedicated RM access
+- Classic credit card to Gold/Platinum upgrade with waived first-year fee
+- Basic debit to Premium debit with airport lounge access
 
 OFFER TYPE D — EXPERIENTIAL & LOYALTY:
 - Invitation to PRISM Wealth Summit (Wealth customers)
@@ -51,37 +80,18 @@ OFFER TYPE D — EXPERIENTIAL & LOYALTY:
 - Priority banking queue bypass at all branches
 - Complimentary financial planning session (60 minutes)
 
-SECTION 3: CHANNEL PROTOCOLS
------------------------------
-PHONE OUTREACH:
-- Use customer's name, acknowledge tenure, express genuine appreciation
-- Lead with value, not desperation
-- Script: "We noticed you've been with us for X years. As a valued customer, we'd like to offer..."
-- Never mention competitor offers unless customer brings them up
-- Escalate to senior RM if customer explicitly mentions switching
+SECTION 5: CHANNEL SELECTION RULES
+-------------------------------------
+- Zone 5 + complaints > 2: mandatory phone call from senior RM
+- age < 35 AND digital_login_frequency > 5: prefer in_app or email
+- age >= 55 OR account_balance > 500000: prefer phone or branch
+- nps_score < 4: phone call from senior RM mandatory
+- IS > 70 (underserved): prefer branch or phone (digital gap consideration)
 
-EMAIL OUTREACH:
-- Subject line must be personalized (include name and specific benefit)
-- Single CTA per email
-- Mobile-optimized HTML template mandatory
-- Unsubscribe link mandatory per TRAI regulations
-
-SMS:
-- Under 160 characters
-- Include customer name
-- Include opt-out instruction
-- Do not send between 9PM–8AM
-
-IN-APP NOTIFICATION:
-- Display on next login, not interrupt-style
-- Dismissable
-- Link to dedicated landing page
-
-SECTION 4: COMPLIANCE & REGULATORY
-------------------------------------
-- All retention offers must comply with RBI Fair Practices Code
+SECTION 6: COMPLIANCE
+-----------------------
+- All offers must comply with RBI Fair Practices Code
 - No differential pricing based on religion, caste, or gender
-- Offers above ₹10,000 in value require branch manager approval
-- All interactions must be logged in CRM within 24 hours
-- Data used for churn prediction must be covered under customer consent at onboarding
+- Offers above Rs 10,000 require branch manager approval
 - DPDP Act 2023 compliance mandatory for all data usage
+- DNC list must be checked before any outreach

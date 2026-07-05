@@ -29,13 +29,13 @@ async def search_knowledge(req: SearchRequest):
 
 @router.post("/chat")
 async def chat(req: ChatRequest, db: AsyncSession = Depends(get_db)):
-    result = await db.execute(select(Customer).where(Customer.customer_id == req.customer_id))
+    result   = await db.execute(select(Customer).where(Customer.customer_id == req.customer_id))
     customer = result.scalar_one_or_none()
     if not customer:
-        return {"answer": "Customer not found in the system."}
+        return {"answer": "Customer not found."}
 
-    features = customer.to_ml_features()
-    prediction = ml_service.predict_churn(features)
+    features    = customer.to_ml_features()
+    prediction  = ml_service.predict_churn(features)
     rag_context = get_retention_context(
         prediction["risk_tier"], customer.segment, prediction["top_risk_factors"]
     )
@@ -45,6 +45,8 @@ async def chat(req: ChatRequest, db: AsyncSession = Depends(get_db)):
         "account_balance": customer.account_balance, "num_products": customer.num_products,
         "complaints_last_year": customer.complaints_last_year,
         "churn_probability": customer.churn_probability,
+        "cpi_score": customer.cpi_score,
+        "zone": customer.zone_label,
     }
     answer = await chat_with_customer_context(req.question, profile, prediction, rag_context)
-    return {"answer": answer, "sources_used": 3}
+    return {"answer": answer, "rag_chunks_used": 5}

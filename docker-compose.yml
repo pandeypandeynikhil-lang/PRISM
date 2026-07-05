@@ -1,25 +1,69 @@
 version: "3.9"
 
 services:
+
+  # ── PostgreSQL ─────────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    container_name: prism_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-prism123}
+      POSTGRES_DB: prism
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Backend ────────────────────────────────────────────
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    container_name: prism_backend
+    restart: unless-stopped
     ports:
       - "8000:8000"
     volumes:
       - ./backend:/app
+      - chroma_data:/app/app/rag/chroma_db
+      - model_data:/app/app/ml
     environment:
       - GEMINI_API_KEY=${GEMINI_API_KEY}
-      - DATABASE_URL=sqlite+aiosqlite:///./prism.db
-    restart: unless-stopped
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - DATABASE_URL=postgresql+asyncpg://postgres:${POSTGRES_PASSWORD:-prism123}@db:5432/prism
+      - APP_ENV=${APP_ENV:-production}
+      - CPI_ALPHA=${CPI_ALPHA:-0.5}
+      - CPI_BETA=${CPI_BETA:-0.3}
+      - CPI_GAMMA=${CPI_GAMMA:-0.2}
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
+  # ── Frontend ───────────────────────────────────────────
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    container_name: prism_frontend
+    restart: unless-stopped
     ports:
       - "3000:80"
     depends_on:
       - backend
-    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  chroma_data:
+  model_data:
