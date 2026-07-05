@@ -1,198 +1,183 @@
-# PRISM — Proactive Retention Intelligence System for Markets
+# PRISM v2 — Predictive Retention Intelligence & Strategic Management Platform
 
-> **AI-powered churn prediction & retention strategy engine built for banking**
+> **AI-powered, fairness-aware churn prediction and retention engine for banking**
+> Built for IDEA 2.0 Hackathon · Organized by Somaiya Vidyavihar University · Sponsored by Union Bank of India & Department of Financial Services
 
 ---
 
 ## What is PRISM?
 
-PRISM is an end-to-end intelligent customer retention platform designed for banks and financial institutions. It combines **Machine Learning**, **Retrieval-Augmented Generation (RAG)**, and **Generative AI** to predict which customers are likely to leave — and then automatically generates personalized, policy-compliant retention strategies to win them back.
+PRISM is an end-to-end intelligent customer retention platform for banks. It predicts which customers are likely to churn, prioritizes outreach using a fairness-aware mathematical model, and automatically generates personalized, policy-compliant retention strategies — all powered by AI.
 
-Built for hackathon demonstration but architected for real-world production use.
+The core innovation is the **Customer Priority Index (CPI)**:
+
+```
+CPI = α·CRS + β·OS + γ·IS
+```
+
+Where:
+- **CRS** (Churn Risk Score) — probability of a customer leaving, predicted by the Random Forest model
+- **OS** (Opportunity Score) — business value / profitability of retaining the customer
+- **IS** (Inclusion Score) — fairness factor ensuring economically underserved customers are not marginalised
+- **α, β, γ** — customizable weights (default: 0.5, 0.3, 0.2)
+
+This means PRISM doesn't just chase the most profitable customers — it balances urgency, business value, and financial inclusion simultaneously.
 
 ---
 
 ## The Problem PRISM Solves
 
-Banks lose billions annually to customer churn. The traditional approach is reactive — the customer has already left before anyone notices. PRISM flips this by:
+Banks lose billions annually to customer churn. Traditional approaches are reactive — the customer has already left before anyone notices. PRISM is proactive:
 
-- **Predicting** churn risk weeks before it happens using behavioral signals
-- **Prioritizing** which customers need immediate attention
-- **Automating** the creation of personalized retention offers
-- **Empowering** relationship managers with AI-assisted decision support
+- **Predicts** churn risk before it materializes using behavioral and financial signals
+- **Prioritizes** customers using CPI — not just raw churn probability
+- **Segments** risk into 5 seismic zones with zone-specific action plans
+- **Automates** personalized retention strategy generation via Gemini AI + Groq
+- **Ensures fairness** — underserved customers get equitable attention, not just high-value ones
 
 ---
 
 ## How the AI Works — Full Technical Walkthrough
 
-### Layer 1: Machine Learning Churn Prediction
+### Layer 1: Random Forest Churn Prediction (CRS)
 
-**Algorithm:** Gradient Boosted Decision Trees (scikit-learn `GradientBoostingClassifier`)
+**Algorithm:** Random Forest Classifier (scikit-learn, 400 estimators)
 
-The ML model is trained on 14 behavioral and financial features extracted from customer banking data:
+Trained on 16 behavioral, financial and RFM features:
 
-| Feature | What it captures |
+| Feature Group | Features |
 |---|---|
-| `credit_score` | Financial health indicator |
-| `account_balance` | Wealth and engagement level |
-| `num_products` | Depth of banking relationship |
-| `has_credit_card` | Product stickiness |
-| `is_active_member` | Current engagement status |
-| `estimated_salary` | Customer value segment |
-| `tenure_months` | Loyalty duration |
-| `age` | Life-stage behavioral patterns |
-| `num_transactions_last_90d` | Recent activity level |
-| `avg_transaction_value` | Transaction behavior |
-| `digital_login_frequency` | Digital engagement |
-| `complaints_last_year` | Dissatisfaction signals |
-| `nps_score` | Net Promoter Score — loyalty sentiment |
-| `days_since_last_contact` | Recency of relationship touchpoint |
+| Financial | credit_score, account_balance, estimated_salary, avg_transaction_value |
+| Products | num_products, has_credit_card, is_active_member |
+| RFM Signals | num_transactions_last_90d, days_since_last_transaction, total_annual_txn_value |
+| Engagement | digital_login_frequency, tenure_months, days_since_last_contact |
+| Satisfaction | complaints_last_year, nps_score |
+| Demographics | age |
 
-**How it trains:**
-1. On first startup, `train_model.py` generates 5,000 synthetic banking customers with realistic churn patterns
-2. Features are scaled using `StandardScaler` to normalize ranges
-3. The model is trained with 200 estimators, depth 4, learning rate 0.05
-4. Outputs a **churn probability (0–1)** and a **risk tier**: Low / Medium / High / Critical
-5. Model and scaler are saved as `.pkl` files and reused on subsequent startups
+**Why Random Forest over Deep Learning:**
+- Seamlessly integrates with SHAP for transparent, explainable decisions
+- Outperforms neural networks on tabular banking data
+- Lower computational cost, faster training
+- `class_weight="balanced"` handles the ~30% churn rate imbalance natively
 
-**Risk Tier Thresholds:**
--  **Low** — < 25% churn probability
--  **Medium** — 25–50%
--  **High** — 50–75%
--  **Critical** — ≥ 75% (immediate action required)
-
-**Additional computed scores:**
-- **LTV Score** — Lifetime Value estimate based on balance, products, salary, and predicted retention duration
-- **Engagement Score** — 0–100 composite score from login frequency, transactions, NPS, and complaints
+**Output:** Churn probability (0–1) → fed into the 5-zone seismic classification system
 
 ---
 
-### Layer 2: RAG — Retrieval-Augmented Generation
+### Layer 2: Seismic Risk Zone Classification
 
-**Technology:** ChromaDB (vector database) + Sentence Transformers (`all-MiniLM-L6-v2`)
+Customers are mapped to one of 5 zones based on their CRS:
 
-RAG ensures that AI-generated retention strategies are **grounded in real bank policies** rather than hallucinated advice.
+| Zone | CRS Range | Risk Level | Objective | Recommended Action |
+|---|---|---|---|---|
+| Zone 5 | 0.81 – 1.00 | Critical | Immediate Retention | RM Intervention + Personalized Offers |
+| Zone 4 | 0.61 – 0.80 | High | Prevent Churn | Targeted Outreach + Service Improvement |
+| Zone 3 | 0.41 – 0.60 | Moderate | Re-engagement | Campaigns + Product Suggestions |
+| Zone 2 | 0.21 – 0.40 | Low | Strengthen Engagement | Loyalty Programs |
+| Zone 1 | 0.00 – 0.20 | Very Low | Maintain Satisfaction | Passive Communication |
 
-**The knowledge base contains 3 documents:**
+---
 
-1. **`retention_policies.txt`** — Defines exactly what actions are mandated at each risk tier, SLA timelines, fee waiver approval limits, and compliance rules (RBI Fair Practices Code, DPDP Act 2023)
+### Layer 3: CPI Score — Fairness-Aware Prioritization
 
-2. **`outreach_templates.txt`** — Pre-approved communication templates for each customer segment (young digital-first customers, senior wealth customers, SME business owners, etc.)
+```
+CPI = α·CRS + β·OS + γ·IS
+```
 
-3. **`product_rules.txt`** — Product eligibility rules, offer constraints, channel selection logic, and prohibited actions
+**Opportunity Score (OS):** Measures the business value of retaining the customer based on account balance, salary, number of products, tenure, and transaction value. Range: 0–100.
 
-**How RAG works in PRISM:**
-1. When a retention strategy is requested for a customer, a query is constructed: `"{risk_tier} risk {segment} customer churn retention strategy {top_factors}"`
-2. This query is embedded into a vector using the MiniLM sentence transformer
+**Inclusion Score (IS):** Measures financial vulnerability — higher score means more underserved. Driven by low account balance, low salary, low credit score, and low digital engagement. Range: 0–100. High IS customers receive special treatment: zero minimum balance penalties, free basic services, financial literacy access.
+
+**Why CPI matters:** A high-value customer with low churn risk might have a lower CPI than a low-income customer with high churn risk and high inclusion score — ensuring equitable, fair retention outreach.
+
+---
+
+### Layer 4: RAG — Retrieval-Augmented Generation
+
+**Technology:** ChromaDB (persistent vector database) + Sentence Transformers (all-MiniLM-L6-v2)
+
+RAG ensures all AI-generated retention strategies are grounded in real bank policies — not hallucinated advice.
+
+**Knowledge base (3 documents):**
+- `retention_policies.txt` — Zone-specific response mandates, SLA timelines, fee waiver limits, RBI compliance rules, DPDP Act 2023
+- `outreach_templates.txt` — Pre-approved communication templates per segment (Zone 5 critical, SME, wealth, digital-first, underserved)
+- `product_rules.txt` — Product eligibility rules, CPI-based automated offer selection rules, channel selection logic
+
+**How it works:**
+1. Query constructed: `"{risk_tier} risk {segment} customer churn retention {top_factors}"`
+2. Query embedded into a vector via MiniLM sentence transformer
 3. ChromaDB performs cosine similarity search across all document chunks
-4. The top 5 most relevant policy chunks are retrieved
-5. These chunks are passed as context to the LLM along with the customer profile
+4. Top 5 most relevant policy chunks retrieved
+5. Chunks passed as grounding context to the LLM
 
-This means the AI **cannot** recommend an offer that isn't in the bank's policy documents.
+The AI **cannot** recommend an offer that isn't in the bank's policy documents.
 
 ---
 
-### Layer 3: Generative AI — Gemini 1.5 Flash
+### Layer 5: Generative AI — Gemini 2.0 Flash + Groq Fallback
 
-**Model:** Google Gemini 1.5 Flash (free tier)
+**Primary:** Google Gemini 2.0 Flash (free tier)
+**Fallback:** Groq llama-3.3-70b-versatile (free tier, auto-switches on 429 rate limit)
 
-With the customer profile + churn prediction + RAG context assembled, Gemini generates a **fully structured JSON retention strategy** containing:
-
-- Strategy type (offer, outreach, product recommendation, fee waiver)
-- Best channel to use (email, SMS, phone, in-app, branch)
-- Priority level (1 = urgent, 2 = high, 3 = medium)
-- A personalized message drafted for that specific customer
-- Specific offer details with ₹ amounts and validity periods
+With customer profile + CPI scores + zone + RAG policy context assembled, the LLM generates a fully structured JSON retention strategy containing:
+- Strategy type and recommended channel
+- Priority level (1 = urgent)
+- Personalized message drafted for that specific customer
+- Exact offer details with ₹ amounts and validity
 - Estimated retention probability uplift
-- Estimated annual revenue saved
-- ROI score
+- Estimated annual revenue saved and ROI score
+- Rationale referencing the customer's CPI and zone
 
-The system prompt strictly instructs the model to only recommend offers present in the retrieved policy context, never invent offers, and output only valid JSON.
-
-**RM Chatbot:** The same Gemini integration powers an interactive chat assistant on each customer's profile page. Relationship managers can ask natural language questions like *"What's the best offer for this customer?"* or *"Why is their NPS score concerning?"* and get instant policy-grounded answers.
+**RM Chatbot:** The same dual-LLM stack powers an interactive chat assistant on each customer's profile page. Relationship managers ask natural language questions and get instant policy-grounded answers.
 
 ---
 
-### Layer 4: Scoring Engine
+### Layer 6: SHAP Explainability
 
-Beyond raw churn probability, PRISM computes two additional scores:
+When `shap` is installed, the system uses `TreeExplainer` to compute SHAP values for each prediction — showing exactly which features drove the churn risk for that specific customer. Falls back to RF feature importances if SHAP is unavailable. All explanations are then narrated in plain English by the LLM.
 
-**LTV (Lifetime Value):**
+---
+
+## PRISM Processing Pipeline
+
 ```
-monthly_revenue = (balance × 0.2%) + (products × ₹150) + (credit_card ? ₹500 : 0) + (salary × 0.1%)
-retention_probability = 1 - churn_probability
-expected_months = retention_prob / (1 - retention_prob)   [capped at 120]
-LTV = monthly_revenue × expected_months
+Data Ingestion → Churn Prediction → Zone Classification → CPI Score Computation → RAG Retrieval → Strategy Generation → RM Outreach
+     ↓                  ↓                   ↓                      ↓                    ↓                  ↓
+  16 features     Random Forest        5 Seismic Zones      α·CRS + β·OS + γ·IS    ChromaDB         Gemini / Groq
+  RFM + signals   400 estimators       Z1 → Z5              Fairness-aware          Policy docs      Personalized JSON
 ```
-
-**Engagement Score (0–100):**
-Composite of digital logins, transaction frequency, NPS, complaints, days since contact, and active member status. Used to identify disengaged customers before churn signals fully materialize.
 
 ---
 
 ## System Architecture
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                     REACT FRONTEND                       │
-│  Dashboard │ Customers │ Analytics │ Predict │ Chat      │
-└──────────────────────┬──────────────────────────────────┘
-                       │ HTTP / REST API
-┌──────────────────────▼──────────────────────────────────┐
-│                   FASTAPI BACKEND                        │
-│                                                          │
-│  /api/customers    →  Customer CRUD + Seeding            │
-│  /api/predict      →  ML Churn Prediction                │
-│  /api/retention    →  Strategy Generation & Management   │
-│  /api/analytics    →  Portfolio Aggregations             │
-│  /api/rag          →  Knowledge Search + RM Chatbot      │
-│                                                          │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌─────────┐ │
-│  │ML Service│  │RAG Service│  │LLM Service│  │Scoring  │ │
-│  │GB Model  │  │ChromaDB  │  │Gemini API │  │LTV/Eng  │ │
-│  └──────────┘  └──────────┘  └──────────┘  └─────────┘ │
-│                                                          │
-│  ┌────────────────────────────────────────────────────┐ │
-│  │         PostgreSQL Database (SQLAlchemy async)      │ │
-│  │   customers │ churn_predictions │ retention_strat.. │ │
-│  └────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│                      REACT FRONTEND (Vite)                    │
+│  Dashboard │ Customers │ Analytics │ Predict │ RM Chat        │
+│  Zone badges │ CPI Gauge │ 5-Zone donut │ SHAP factors        │
+└─────────────────────────┬────────────────────────────────────┘
+                          │ REST API (/api/*)
+┌─────────────────────────▼────────────────────────────────────┐
+│                     FASTAPI BACKEND                           │
+│                                                               │
+│  /api/predict    → Random Forest + SHAP + CPI                 │
+│  /api/customers  → CRUD + seeding + CPI-sorted               │
+│  /api/retention  → Strategy gen + status tracking            │
+│  /api/analytics  → Zone/segment aggregations                 │
+│  /api/rag        → ChromaDB search + RM chatbot              │
+│                                                               │
+│  ┌───────────┐ ┌──────────┐ ┌──────────┐ ┌───────────────┐  │
+│  │ RF Model  │ │ ChromaDB │ │  Gemini  │ │  CPI Engine   │  │
+│  │ + SHAP   │ │ + MiniLM │ │ + Groq   │ │  OS + IS + CRS│  │
+│  └───────────┘ └──────────┘ └──────────┘ └───────────────┘  │
+│                                                               │
+│  ┌───────────────────────────────────────────────────────┐   │
+│  │          PostgreSQL (async SQLAlchemy + asyncpg)       │   │
+│  │   customers │ churn_predictions │ retention_strategies │   │
+│  └───────────────────────────────────────────────────────┘   │
+└──────────────────────────────────────────────────────────────┘
 ```
-
----
-
-## Features
-
-### Dashboard
-- Portfolio-level KPIs: total customers, average churn risk, revenue at risk, retention rate
-- Risk distribution donut chart (Critical / High / Medium / Low)
-- Live top-10 most at-risk customers with one-click navigation
-- System health status indicators
-- One-click demo data seeding (generates 60 synthetic customers)
-
-### Customer Intelligence
-- Full customer grid with real-time risk badges and churn probability bars
-- Filter by risk tier, segment, or free-text search
-- Customer cards showing balance, LTV, engagement score, tenure
-
-### Customer Detail Page
-- Full behavioral profile with color-coded risk signals
-- Churn probability bar with visual risk indicator
-- AI strategy generation (calls ML → RAG → Gemini pipeline)
-- Strategy history with status tracking (pending → sent → accepted/rejected)
-- Embedded RM chatbot powered by RAG + Gemini
-
-### Analytics
-- Segment breakdown (Retail / Premium / Wealth / SME) by churn risk
-- Bar chart of average churn by segment
-- Radar chart of segment risk profile
-- Portfolio retention rate and LTV totals
-
-### Manual Prediction
-- Form-based predictor for any customer profile
-- Instant churn probability with confidence score
-- Top 5 risk factors with importance bars
-- Gemini-generated plain-English explanation of why the customer is at risk
 
 ---
 
@@ -203,11 +188,50 @@ Composite of digital logins, transaction frequency, NPS, complaints, days since 
 | Frontend | React 18, Vite, React Router, Recharts |
 | Backend | FastAPI, Python 3.11, Uvicorn |
 | Database | PostgreSQL + SQLAlchemy (async) + asyncpg |
-| ML Model | scikit-learn GradientBoostingClassifier |
-| Vector DB | ChromaDB + Sentence Transformers (MiniLM) |
-| Generative AI | Google Gemini 1.5 Flash (free API) |
-| HTTP Client | httpx (async Gemini calls) |
-| Styling | Pure CSS with CSS variables (no UI framework) |
+| ML Model | Random Forest (scikit-learn, 400 estimators) |
+| Explainability | SHAP TreeExplainer |
+| Vector DB | ChromaDB + Sentence Transformers (all-MiniLM-L6-v2) |
+| Primary LLM | Google Gemini 2.0 Flash (free API) |
+| Fallback LLM | Groq llama-3.3-70b-versatile (free API, auto-fallback) |
+| HTTP Client | httpx (async) |
+
+---
+
+## Features
+
+### Dashboard
+- Portfolio KPIs: total customers, avg CPI, avg churn risk, revenue at risk, retention rate
+- 5-Zone seismic distribution pills — click any zone to filter customers
+- Top-priority customers sorted by CPI score (not just churn probability)
+- Live system status: RF Model, ChromaDB, Gemini + Groq, PostgreSQL, SHAP
+
+### Customer Intelligence
+- CPI-sorted customer grid with zone badges, churn bars, OS/IS scores
+- Filter by zone (Z1–Z5), segment, or free-text search
+- Each card shows: CPI score, Opportunity Score, Inclusion Score, balance, LTV, engagement
+
+### Customer Detail Page
+- Full behavioral profile with color-coded risk signals
+- Zone bar with seismic classification and recommended action
+- CPI Gauge showing α·CRS + β·OS + γ·IS breakdown
+- AI strategy generation (RF → RAG → Gemini/Groq pipeline)
+- Strategy history with status tracking (pending → sent → accepted/rejected)
+- Embedded RM chatbot powered by RAG + dual-LLM
+
+### Analytics
+- Seismic Zone breakdown table with objectives and adaptive strategy mapping
+- Avg churn by segment bar chart
+- Zone distribution donut chart
+- Segment radar chart
+- Full segment intelligence table with CPI, OS, IS per segment
+
+### Manual Prediction
+- All 16 features across 6 grouped sections (Financial, Products, RFM, Engagement, Satisfaction)
+- Instant churn probability + zone classification + confidence score
+- SHAP/RF top-5 risk factors with importance bars
+- CPI gauge with OS and IS breakdown
+- Zone action card with specific recommended next step
+- Gemini/Groq plain-English explanation of why the customer is at risk
 
 ---
 
@@ -218,75 +242,77 @@ prism-retention-system/
 │
 ├── backend/
 │   ├── app/
-│   │   ├── main.py              # FastAPI app, lifespan, middleware, router registration
-│   │   ├── database.py          # Async SQLAlchemy engine, session factory, init_db
+│   │   ├── main.py                      # FastAPI entry, lifespan, routers
+│   │   ├── database.py                  # Async SQLAlchemy engine + session
 │   │   │
-│   │   ├── models/              # SQLAlchemy ORM table definitions
-│   │   │   ├── customer.py      # Customer table with all 20+ fields
-│   │   │   ├── churn.py         # ChurnPrediction table (prediction history)
-│   │   │   └── strategy.py      # RetentionStrategy table (AI-generated plans)
+│   │   ├── models/
+│   │   │   ├── customer.py              # Customer table — 30+ fields incl. CPI/zone
+│   │   │   ├── churn.py                 # ChurnPrediction history table
+│   │   │   └── strategy.py              # RetentionStrategy table
 │   │   │
-│   │   ├── routes/              # FastAPI route handlers
-│   │   │   ├── predict.py       # POST /predict — runs ML model
-│   │   │   ├── customers.py     # GET/POST /customers — CRUD + seeding
-│   │   │   ├── retention.py     # GET/POST /retention — strategy gen & management
-│   │   │   ├── analytics.py     # GET /analytics — aggregated portfolio stats
-│   │   │   └── rag.py           # POST /rag/chat and /rag/search
+│   │   ├── routes/
+│   │   │   ├── predict.py               # POST /predict — RF + SHAP + CPI
+│   │   │   ├── customers.py             # GET/POST /customers — CRUD + seeding
+│   │   │   ├── retention.py             # GET/POST /retention — strategy gen
+│   │   │   ├── analytics.py             # GET /analytics — zones + segments
+│   │   │   └── rag.py                   # POST /rag/chat + /rag/search
 │   │   │
-│   │   ├── services/            # Business logic layer
-│   │   │   ├── ml_service.py    # Loads model, runs predictions, extracts feature importances
-│   │   │   ├── scoring_service.py # LTV, engagement score, segment classification
-│   │   │   ├── rag_service.py   # ChromaDB client, document ingestion, retrieval
-│   │   │   └── llm_service.py   # Gemini API calls — strategy gen, explanations, chat
+│   │   ├── services/
+│   │   │   ├── ml_service.py            # RF inference, SHAP/fallback, batch predict
+│   │   │   ├── scoring_service.py       # CPI, LTV, OS, IS, engagement scoring
+│   │   │   ├── rag_service.py           # ChromaDB client, ingestion, retrieval
+│   │   │   └── llm_service.py           # Gemini + Groq fallback, strategy + chat
 │   │   │
 │   │   ├── ml/
-│   │   │   └── train_model.py   # Synthetic data generation, model training, pkl saving
+│   │   │   └── train_model.py           # RF training, zone classifier, CPI functions
 │   │   │
 │   │   ├── rag/
-│   │   │   ├── chroma_db/       # Persisted ChromaDB vector store (auto-populated)
-│   │   │   └── documents/       # Source knowledge base text files
+│   │   │   ├── chroma_db/               # Persisted vector store (auto-populated)
+│   │   │   └── documents/
 │   │   │       ├── retention_policies.txt
 │   │   │       ├── outreach_templates.txt
 │   │   │       └── product_rules.txt
 │   │   │
 │   │   └── utils/
-│   │       └── helpers.py       # INR formatting, risk colors, utility functions
+│   │       └── helpers.py               # INR formatting, zone helpers, CPI labels
 │   │
 │   ├── requirements.txt
-│   ├── .env.example
+│   ├── .env.example                     # Template — no real keys
 │   └── Dockerfile
 │
 ├── frontend/
 │   ├── src/
-│   │   ├── App.jsx              # React Router setup, route definitions
-│   │   ├── main.jsx             # React DOM root mount
-│   │   ├── index.css            # Full design system: CSS variables, components, animations
+│   │   ├── App.jsx                      # React Router setup
+│   │   ├── main.jsx                     # React DOM mount
+│   │   ├── index.css                    # Full design system + CSS variables
 │   │   │
-│   │   ├── components/          # Reusable UI components
-│   │   │   ├── Layout.jsx       # Sidebar navigation, collapsible, active state
-│   │   │   ├── StatCard.jsx     # KPI metric card with skeleton loading
-│   │   │   ├── CustomerCard.jsx # Risk card with churn bar, metrics grid
-│   │   │   ├── RiskChart.jsx    # Recharts donut with center label and legend
-│   │   │   └── StrategyPanel.jsx # Collapsible strategy cards with action buttons
+│   │   ├── components/
+│   │   │   ├── Layout.jsx               # Sidebar + CPI formula display
+│   │   │   ├── ZoneBadge.jsx            # ZoneBadge, ZoneBar, CpiGauge components
+│   │   │   ├── CustomerCard.jsx         # Risk card with CPI, OS, IS, zone
+│   │   │   ├── RiskChart.jsx            # 5-zone donut chart
+│   │   │   ├── StatCard.jsx             # KPI metric card
+│   │   │   └── StrategyPanel.jsx        # Collapsible AI strategy cards
 │   │   │
 │   │   ├── pages/
-│   │   │   ├── Dashboard.jsx    # Main overview page
-│   │   │   ├── Customers.jsx    # Filterable customer grid
-│   │   │   ├── CustomerDetail.jsx # Full profile + RAG chat + strategy panel
-│   │   │   ├── Analytics.jsx    # Charts and segment breakdown
-│   │   │   └── Predict.jsx      # Manual prediction form with live results
+│   │   │   ├── Dashboard.jsx            # Main overview + zone pills
+│   │   │   ├── Customers.jsx            # Zone-filtered customer grid
+│   │   │   ├── CustomerDetail.jsx       # Full profile + CPI gauge + RM chat
+│   │   │   ├── Analytics.jsx            # Zone table + segment charts
+│   │   │   └── Predict.jsx              # Manual prediction + zone result
 │   │   │
 │   │   └── services/
-│   │       └── api.js           # All axios API calls in one place
+│   │       └── api.js                   # All axios API calls
 │   │
 │   ├── index.html
-│   ├── vite.config.js           # Vite + proxy config (forwards /api to :8000)
-│   └── package.json
+│   ├── vite.config.js
+│   ├── package.json
+│   ├── Dockerfile
+│   └── nginx.conf
 │
 ├── docker-compose.yml
 ├── .gitignore
-├── README.md
-└── COMMANDS.md                  # PowerShell setup guide
+└── README.md
 ```
 
 ---
@@ -298,6 +324,7 @@ prism-retention-system/
 - Node.js 20+
 - PostgreSQL 14+ (running locally)
 - Free Gemini API key → https://aistudio.google.com/app/apikey
+- Free Groq API key → https://console.groq.com
 
 ### Backend
 
@@ -307,17 +334,25 @@ python -m venv venv
 .\venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 Copy-Item .env.example .env
-# Edit .env — add Gemini key and PostgreSQL URL
+# Edit .env — add your real API keys and DB URL
+python -m app.ml.train_model
 uvicorn app.main:app --reload --port 8000
 ```
 
-**.env file:**
+### `.env` file
+
 ```env
-GEMINI_API_KEY=your_gemini_api_key_here
-DATABASE_URL=postgresql+asyncpg://postgres:yourpassword@127.0.0.1:5432/your_db_name
+GEMINI_API_KEY=your_gemini_key_here
+GROQ_API_KEY=your_groq_key_here
+DATABASE_URL=postgresql+asyncpg://postgres:yourpassword@127.0.0.1:5432/prism
+APP_ENV=development
+DEBUG=true
+CPI_ALPHA=0.5
+CPI_BETA=0.3
+CPI_GAMMA=0.2
 ```
 
-> ⚠️ If your password contains `@`, encode it as `%40` in the URL.
+> If your password contains `@`, encode it as `%40` — e.g. `Pass@123` → `Pass%40123`
 
 ### Frontend
 
@@ -327,15 +362,7 @@ npm install
 npm run dev
 ```
 
-Open: **http://localhost:3000**
-
-### First Run
-
-1. Click **"Seed Demo Data"** on the Dashboard — creates 60 synthetic customers
-2. Browse the **Customers** page — filter by risk tier
-3. Click any customer → click **"Generate AI Strategy"** to run the full ML + RAG + Gemini pipeline
-4. Use the **chat box** on the customer page to ask the AI questions
-5. Try **Predict** page to manually test any customer profile
+Open **http://localhost:3000** → click **Seed Demo Data** on the Dashboard.
 
 ---
 
@@ -343,57 +370,60 @@ Open: **http://localhost:3000**
 
 | Method | Endpoint | Description |
 |---|---|---|
-| GET | `/api/customers` | List customers with filters |
-| GET | `/api/customers/{id}` | Get single customer |
-| POST | `/api/customers/seed` | Seed N demo customers |
-| POST | `/api/predict` | Run churn prediction on raw features |
+| GET | `/api/customers/` | List customers, filtered + sorted by CPI |
+| GET | `/api/customers/{id}` | Get single customer with all scores |
+| POST | `/api/customers/seed` | Seed N demo customers across all 5 zones |
+| POST | `/api/predict/` | Run RF prediction + CPI + SHAP on raw features |
 | POST | `/api/predict/batch` | Batch predictions |
-| GET | `/api/retention/strategies/{id}` | Get strategies for a customer |
-| POST | `/api/retention/generate/{id}` | Generate AI strategy for a customer |
+| GET | `/api/retention/strategies/{id}` | Get AI strategies for a customer |
+| POST | `/api/retention/generate/{id}` | Run full ML → RAG → LLM pipeline |
 | PATCH | `/api/retention/strategies/{id}/status` | Update strategy status |
-| GET | `/api/analytics/summary` | Portfolio-level KPIs |
-| GET | `/api/analytics/segments` | Churn by segment |
-| GET | `/api/analytics/top-at-risk` | Top N riskiest customers |
-| POST | `/api/rag/chat` | RM chatbot query |
-| POST | `/api/rag/search` | Search knowledge base |
+| GET | `/api/analytics/summary` | Portfolio KPIs incl. CPI, OS, IS averages |
+| GET | `/api/analytics/segments` | Churn + CPI by segment |
+| GET | `/api/analytics/zones` | Zone distribution with avg CPI |
+| GET | `/api/analytics/top-at-risk` | Top N customers by CPI score |
+| POST | `/api/rag/chat` | RM chatbot — policy-grounded Q&A |
+| POST | `/api/rag/search` | Search the ChromaDB knowledge base |
 
-Interactive Swagger docs: **http://localhost:8000/docs**
+Swagger UI: **http://localhost:8000/docs**
 
 ---
 
 ## Key Design Decisions
 
-**Why Gradient Boosting?** It handles tabular banking data extremely well, is interpretable via feature importances, and produces well-calibrated probability scores — important for risk tier classification.
+**Why Random Forest over Gradient Boosting?** Random Forest integrates seamlessly with SHAP TreeExplainer for transparent, feature-level explainability — critical for a regulated banking product where decisions must be auditable.
 
-**Why RAG instead of fine-tuning?** Bank policies change frequently. RAG lets you update the knowledge base (just edit the `.txt` files) without retraining any model. It also prevents hallucination of non-existent offers.
+**Why CPI instead of raw churn probability?** Raw churn probability alone creates a bias toward high-value customers. CPI balances urgency (CRS), profitability (OS), and fairness (IS) — banks can serve all customers equitably while managing business outcomes.
 
-**Why Gemini Flash (free tier)?** Fast inference, generous free quota, strong JSON instruction-following, and zero API cost — ideal for a hackathon product that needs to demonstrate AI capabilities without billing concerns.
+**Why 5 seismic zones?** Finer granularity than a 4-tier system allows more precise action mapping. Zone 3 (Moderate) gets re-engagement campaigns while Zone 4 (High) gets targeted outreach — two very different interventions that a single "medium" tier would blur.
 
-**Why async throughout?** FastAPI + SQLAlchemy async + asyncpg + httpx async = all I/O is non-blocking. The server can handle concurrent prediction requests without threads blocking each other.
+**Why RAG instead of fine-tuning?** Bank policies change frequently. RAG lets you update the knowledge base by editing `.txt` files without retraining any model. It also grounds the AI strictly in approved offers — preventing hallucinated or non-compliant recommendations.
+
+**Why Gemini + Groq dual-LLM?** Both are free-tier APIs. Gemini 2.0 Flash handles most calls; when rate-limited (429), Groq llama-3.3-70b takes over automatically via exponential backoff. The system never goes offline due to a single LLM's rate limit.
+
+**Why async throughout?** FastAPI + SQLAlchemy async + asyncpg + httpx = all I/O is non-blocking. The server handles concurrent prediction requests without threads blocking each other — essential for a real-time banking dashboard.
 
 ---
 
 ## Compliance & Ethics
 
-- All retention offers are constrained to the policy knowledge base — no arbitrary offer generation
-- Customer data used for ML must be covered under onboarding consent (DPDP Act 2023)
+- All retention offers constrained to the RAG knowledge base — no arbitrary AI generation
+- Inclusion Score ensures underserved customers receive fair prioritization
 - No differential pricing based on religion, caste, or gender (RBI Fair Practices Code)
-- Offers above ₹10,000 in value flagged for manager approval
-- DNC (Do Not Contact) list respect built into channel selection rules
-- ML model trained on synthetic data for demo — production deployment requires real historical data with proper governance
+- Offers above ₹10,000 flagged for manager approval
+- DNC list respect built into channel selection rules
+- DPDP Act 2023 compliance framework embedded in policy documents
+- SHAP explainability ensures every prediction can be audited and explained
 
 ---
 
-## Roadmap / Future Enhancements
+## Security Notes
 
-- [ ] Real-time streaming predictions via WebSocket
-- [ ] A/B testing framework for retention offer effectiveness
-- [ ] Automated email/SMS dispatch integration
-- [ ] Model retraining pipeline with new outcome data (retained/churned feedback loop)
-- [ ] Multi-bank white-label support
-- [ ] Explainability dashboard with SHAP values
-- [ ] Alert system for newly critical customers
+- Never commit `.env` — it is in `.gitignore`
+- Only `.env.example` (with placeholders) should be committed
+- API keys in `.env.example` must always be placeholder text like `your_key_here`
+- Rotate any key that was accidentally committed immediately
 
 ---
 
-*Built by Nikhil Pandey — PRISM: Predict. Retain. Grow.*
+*PRISM v2 — Predict. Retain. Grow. Fairly.*
